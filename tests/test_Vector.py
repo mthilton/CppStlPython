@@ -149,14 +149,14 @@ class test_vector(unittest.TestCase):
 
     # pop_back(): 2 tests
     def test_pop_back(self):
-        self.str_fill_vector.push_back('t')
+        self.str_fill_vector.push_back('bar')
         self.str_fill_vector.pop_back()
-        self.assertEqual(self.str_fill_vector.back(), 's')
+        self.assertEqual(self.str_fill_vector.back(), 'foo')
         self.assertEqual(len(self.str_fill_vector), 5)
 
     def test_pop_back_fail(self):
         v = Vector()
-        with self.assertRaises(Vector.EmptyError):
+        with self.assertRaises(Vector.OutOfRangeError):
             v.pop_back()
 
     # insert(): 3 tests
@@ -189,17 +189,22 @@ class test_vector(unittest.TestCase):
 
     def test_erase_range(self):
         v = Vector(self.int_list)
-        v.erase(0, 4)
+        v.erase(0, 5)
         self.assertEqual(len(v), 0)
         with self.assertRaises(Vector.OutOfRangeError):
             v.front()
+
+    def test_erase_range_fail(self):
+        v = Vector(self.int_list)
+        with self.assertRaises(Vector.OutOfRangeError):
+            v.erase(0, 6)
 
     # swap(): 1 tests
     def test_swap(self):
         v = Vector(10, 1)
         u = Vector(self.int_list)
         v.swap(u)
-        self.assertEqual(v.data, self.int_list)
+        self.assertEqual(v.data(), self.int_list)
 
     # clear(): 1 tests
     def test_clear(self):
@@ -209,10 +214,10 @@ class test_vector(unittest.TestCase):
 
     # emplace(): tests
     def test_emplace(self):
-        self.str_fill_vector.emplace(1, 'r')
-        self.assertEqual(self.str_fill_vector.front(), 'r')
+        self.str_fill_vector.emplace(0, 'bar')
+        self.assertEqual(self.str_fill_vector.front(), 'bar')
 
     # emplace_back(): tests
     def test_emplace_back(self):
-        self.str_fill_vector.emplace(1, 't')
-        self.assertEqual(self.str_fill_vector.back(), 't')
+        self.str_fill_vector.emplace_back('bar')
+        self.assertEqual(self.str_fill_vector.back(), 'bar')
