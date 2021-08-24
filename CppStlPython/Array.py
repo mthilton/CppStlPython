@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Matthew Hilton
 # July 1st, 2021
 #
@@ -313,3 +314,8 @@ class Array():
             self.__defined[i] = a.__defined[i]
             a.__data[i] = temp[0]
             a.__defined[i] = temp[1]
+=======
+class Array:
+    def __init__(self):
+        raise NotImplementedError
+>>>>>>> master
