@@ -132,6 +132,25 @@ class Vector():
         self.__index = self.__size
         return self.__iter__()
 
+    # Capacity Methods
+
+    # The following methods have not been implemented because the underlying
+    # data structure is a list, not a statically sized array:
+    #
+    # max_size()
+    # resize()
+    # capacity()
+    # reserve()
+    # shrink_to_fit()
+
+    def size(self) -> int:
+        '''Returns the number of elements in the vector'''
+        return self.__size
+
+    def empty(self) -> bool:
+        '''Checks to see if the vector is empty or not'''
+        return self.__size == 0
+
     # Element Access
     # The following two dunder methods effectivly overload the [] operator
 
@@ -190,3 +209,32 @@ class Vector():
     def data(self) -> List['Vector.__type']:
         '''Returns a list containing the curent vector'''
         return self.__data
+
+    # Modifiers
+    # These functions are not implemented becuase
+    # assign(): Relates to iterables. Iterables are
+    #           fundamentally different in python than c++
+
+    def push_back(self, val: 'Vector.__type') -> None:
+        pass
+
+    def pop_back(self):
+        pass
+
+    def insert(self):
+        pass
+
+    def erase(self):
+        pass
+
+    def swap(self):
+        pass
+
+    def clear(self):
+        pass
+
+    def emplace(self):
+        pass
+
+    def emplace_back(self):
+        pass
