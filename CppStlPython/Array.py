@@ -160,19 +160,19 @@ class Array():
             return True
         return False
 
-    def array_type(self) -> 'Array.__type':
+    def array_type(self) -> Any:
         '''Returns the type that is allowed in the current array'''
         return self.__type
 
     # Iterator Methods
     # rbegin, rend, cbegin, cend, crbegin, crend = delete
 
-    def __iter__(self) -> 'Array.__type':
+    def __iter__(self) -> Any:
         '''Magic Python Method that allows for iter(array)
            Useful for foreach type for loops (ie: for elem in array)'''
         return iter(self.__data)
 
-    def __next__(self) -> 'Array.__type':
+    def __next__(self) -> Any:
         '''Magic Python Method that allows iter(array) to find the next element'''
         self.__index += 1
         if self.__index < self.__size:
@@ -180,12 +180,12 @@ class Array():
             return result
         raise StopIteration
 
-    def begin(self) -> 'Array.__type':
+    def begin(self) -> Any:
         '''Returns the iterator to the first element in the array'''
         self.__index = -1
         return self.__next__()
 
-    def end(self) -> 'Array.__type':
+    def end(self) -> Any:
         '''Returns the iterator to the last element in the array'''
         self.__index = self.__size
         return self.__iter__()
@@ -212,7 +212,7 @@ class Array():
     # Magic Python Method that overloads operator[] access
     #
     # Returns the value at the given index
-    def __getitem__(self, i: int) -> 'Array.__type':
+    def __getitem__(self, i: int) -> Any:
         if i >= self.__size:
             raise IndexError(
                 f"ArrayError (Operator[]): Index '{i}' is not in the bounds of the array. (Max index: {self.__size - 1})")
@@ -225,7 +225,7 @@ class Array():
     # Magic Python Method that overloads operator[] assign
     #
     # Sets the array to the passed value at the passed index
-    def __setitem__(self, i: int, value: 'Array.__type') -> None:
+    def __setitem__(self, i: int, value: Any) -> None:
         if isinstance(None, self.__type):
             self.__type = type(value)
         if i >= self.__size:
@@ -252,19 +252,19 @@ class Array():
         raise self.ArgumentError(
             f"Invalid Arguments. Expected Either an index or an index and a value. ({value})")
 
-    def front(self) -> 'Array.__type':
+    def front(self) -> Any:
         '''Returns the first element in the array'''
         if not self.__defined[0]:
             raise self.UninitalizedValueError(f"First value is undefined")
         return self.__data[0]
 
-    def back(self) -> 'Array.__type':
+    def back(self) -> Any:
         '''Returns the last element in the array'''
         if not self.__defined[-1]:
             raise self.UninitalizedValueError(f"Last value is undefined")
         return self.__data[-1]
 
-    def data(self) -> List['Array.__type']:
+    def data(self) -> List[Any]:
         '''
         Returns a list containing the curent array
 
@@ -276,7 +276,7 @@ class Array():
 
     # Modifiers
 
-    def fill(self, val: 'Array.__type') -> None:
+    def fill(self, val: Any) -> None:
         '''Fills the array with the passed value.
            To make the array empty, call fill(None)'''
         # Sets array to be empty
