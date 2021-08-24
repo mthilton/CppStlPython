@@ -6,7 +6,7 @@
 # This is the port of the array module in the C++ Standard
 # Template Library. Anything involving pointers or move semantics
 # Are either modified or removed. Reverse iterators and const iterators
-# are also removed. However array.data() has been implemented
+# are also removed. However array.data() has been implemented.
 
 # Imports
 from typing import Any, List
@@ -265,7 +265,13 @@ class Array():
         return self.__data[-1]
 
     def data(self) -> List['Array.__type']:
-        '''Returns a list containing the curent array'''
+        '''
+        Returns a list containing the curent array
+
+        This will return the underlying list that the array is stored as. 
+        Order will be preserved but elements that are listed as undefined in
+        the array will be set to None
+        '''
         return self.__data
 
     # Modifiers
