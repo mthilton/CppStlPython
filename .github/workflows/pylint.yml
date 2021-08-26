@@ -3,6 +3,9 @@ name: Pylint
 on: 
   pull_request:
     branches: [ staging ]
+  
+  # Allows the job to be run From GitHub   
+  workflow_dispatch:
 
 jobs:
   lint:
