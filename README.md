@@ -20,7 +20,7 @@ Importing the entire package
    import CppStlPython
 ```
 
-Importing a specific container
+Importing specific containers
 ```python
    from CppStlPython import Array, Vector
 ```
