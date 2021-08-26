@@ -5,6 +5,26 @@ A port of the C++ Standard Template Library to Python. All templates have been p
 - Python 3.5
 - pip
 
+## Quickstart Guide
+
+To install this package, use the pip.
+
+```bash
+pip3 install CppStlPython
+```
+
+Once you have installed this package, make sure to import it.
+
+Importing the entire package
+```python
+   import CppStlPython
+```
+
+Importing a specific container
+```python
+   from CppStlPython import Array, Vector
+```
+
 ## Container Status
 | Container Name | Completion Status |
 | ---------------|:-----------------:|
