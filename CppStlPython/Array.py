@@ -350,6 +350,15 @@ class Array():
                 f"ArrayError(back): Last value is undefined")
         return self.__data[-1]
 
+    def data(self) -> Tuple[Any]:
+        '''
+        Returns the underlying list as a tuple to maintain the state of the array when this
+        method is called.
+
+        Order of elements is preserved.
+        '''
+        return tuple(self.__data)
+
     # Modifiers
 
     def fill(self, val: Any) -> None:

@@ -14,7 +14,7 @@ Template Library. Anything involving pointers or move semantics
 Are either modified or removed. Reverse iterators and const iterators
 are also removed. However vector.data() has been implemented
 '''
-from typing import Any, List
+from typing import Any, List, Tuple
 
 
 class Vector():
@@ -28,7 +28,6 @@ class Vector():
 
     __type: type = None
     __data: List = []
-    __index = -1
     __size: int = 0
 
     class ConstructorFailure(Exception):
@@ -57,6 +56,7 @@ class Vector():
             self.__index: int = index
 
         def __next__(self) -> None:
+            self.__size: int = len(self.__vector)
             self.__index += 1
             if self.__index < self.__size:
                 return self.__vector[self.__index]
@@ -73,6 +73,7 @@ class Vector():
             self.__index: int = self.__size if end is False else end
 
         def __next__(self) -> None:
+            self.__size: int = len(self.__vector)
             self.__index -= 1
             if self.__index > -1:
                 return self.__vector[self.__index]
@@ -269,6 +270,15 @@ class Vector():
             raise self.OutOfRangeError(
                 f"Vector Error (back): Vector is empty")
         return self.__data[-1]
+
+    def data(self) -> Tuple[Any]:
+        '''
+        Returns the underlying list as a tuple to maintain the state of the vector when this
+        method is called.
+
+        Order of elements is preserved.
+        '''
+        return tuple(self.__data)
 
     # Modifiers
     # These functions are not implemented becuase
