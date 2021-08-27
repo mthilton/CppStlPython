@@ -1,5 +1,10 @@
 # Matthew Hilton
 # July 6th, 2021
+# TODO:
+#
+# 1. Figure out how modifying the vector after creating the iterator works and how to implement
+#    it.
+# 2. Update the testing module with iter tests and the removal of .data() and the refact from ._vector_type() to .type()
 
 '''
 Module: Vector.py
