@@ -14,27 +14,6 @@ However array.data() has been implemented.
 from typing import Any, List, Tuple
 
 
-def __validate_args(args: List) -> Tuple[int, List]:
-    '''
-    Helper Function that helps validate arguments passed to the consturctor
-    '''
-    invalid_args = []
-    errno = -1
-    if len(args) > 0 and not isinstance(args[0], (type, int, Array)):
-        invalid_args.append(args[0])
-        errno = 4
-
-    if len(args) > 1 and not isinstance(args[1], int):
-        invalid_args.append(args[1])
-        errno = 4
-
-    if len(args) > 2:
-        invalid_args += list(args[2:])
-        errno = 4
-
-    return errno, invalid_args
-
-
 class Array():
 
     '''
@@ -106,13 +85,34 @@ class Array():
         def __init__(self, array: 'Array', end: bool = False) -> None:
             self.__array: 'Array' = array
             self.__size: int = len(array)
-            self.__index: int = self.__size if end is False else end
+            self.__index: int = self.__size if end is False else 0
 
         def __next__(self) -> None:
             self.__index -= 1
             if self.__index > -1:
                 return self.__array[self.__index]
             raise StopIteration
+
+    @staticmethod
+    def __validate_args(args: List) -> Tuple[int, List]:
+        '''
+        Helper Function that helps validate arguments passed to the consturctor
+        '''
+        invalid_args = []
+        errno = -1
+        if len(args) > 0 and not isinstance(args[0], (type, int, Array)):
+            invalid_args.append(args[0])
+            errno = 4
+
+        if len(args) > 1 and not isinstance(args[1], int):
+            invalid_args.append(args[1])
+            errno = 4
+
+        if len(args) > 2:
+            invalid_args += list(args[2:])
+            errno = 4
+
+        return errno, invalid_args
 
     def __init__(self, *args) -> None:
         '''
@@ -143,7 +143,7 @@ class Array():
             return
 
         # Type checking of values
-        errno, invalid_args = __validate_args(args)
+        errno, invalid_args = self.__validate_args(args)
 
         if errno < 0:
 

@@ -64,7 +64,7 @@ class Vector():
         def __init__(self, vector: 'Vector', end: bool = False) -> None:
             self.__vector: 'Vector' = vector
             self.__size: int = len(vector)
-            self.__index: int = self.__size if end is False else end
+            self.__index: int = self.__size if end is False else 0
 
         def __next__(self) -> None:
             self.__size: int = len(self.__vector)
@@ -94,6 +94,9 @@ class Vector():
         '''
         # Empty Ctor
         if len(args) == 0:
+            self.__type = None
+            self.__data = []
+            self.__size = 0
             return
 
         # Copy ctor
@@ -106,6 +109,8 @@ class Vector():
         # Type instantiation ctor
         if len(args) == 1 and isinstance(args[0], type):
             self.__type = args[0]
+            self.__data = []
+            self.__size = 0
             return
 
         # List obj Ctor

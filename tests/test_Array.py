@@ -149,7 +149,7 @@ class test_array(unittest.TestCase):
         for x in range(5):
             a[x] = x + 1
 
-        self.assertEqual(a.data(), [1, 2, 3, 4, 5])
+        self.assertEqual(list(a.data()), [1, 2, 3, 4, 5])
 
     # Test Modifiers: 6 Tests
     # Fill: 3 Test
@@ -246,8 +246,7 @@ class test_array(unittest.TestCase):
             a[x] = x + 1
 
         it = a.rbegin()
-        with self.assertRaises(StopIteration):
-            next(it)
+        self.assertEqual(a[len(a) - 1], next(it))
 
     def test_rend(self):
         a = Array(int, 5)
@@ -255,7 +254,8 @@ class test_array(unittest.TestCase):
             a[x] = x + 1
 
         it = a.rend()
-        self.assertEqual(a[0], next(it))
+        with self.assertRaises(StopIteration):
+            next(it)
 
 
 if __name__ == "__main__":

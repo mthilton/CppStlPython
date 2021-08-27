@@ -19,30 +19,32 @@ class test_vector(unittest.TestCase):
     # Test Init: 7 tests
     def test_init_empty(self):
         v = Vector()
-        self.assertEqual(v.data(), [])
+        self.assertEqual(len(v), 0)
+        self.assertIsNone(v.type())
+        self.assertEqual(list(v.data()), [])
 
     def test_init_type(self):
         v = Vector(int)
-        self.assertIsInstance(1, v._vector_type())
-        self.assertEqual(v.data(), [])
+        self.assertIsInstance(1, v.type())
+        self.assertEqual(list(v.data()), [])
 
     def test_init_fill(self):
-        self.assertIsInstance("s", self.str_fill_vector._vector_type())
+        self.assertIsInstance("s", self.str_fill_vector.type())
         self.assertEqual(len(self.str_fill_vector), 5)
-        self.assertEqual(self.str_fill_vector.data(), ["foo"] * 5)
+        self.assertEqual(list(self.str_fill_vector.data()), ["foo"] * 5)
 
     def test_init_copy(self):
         v = Vector(self.str_fill_vector)
-        self.assertIsInstance("s", v._vector_type())
+        self.assertIsInstance("s", v.type())
         self.assertEqual(len(v), 5)
         self.assertEqual(v, self.str_fill_vector)
         self.assertNotEqual(id(v), id(self.str_fill_vector))
 
     def test_init_list(self):
         v = Vector(self.int_list)
-        self.assertIsInstance(1, v._vector_type())
+        self.assertIsInstance(1, v.type())
         self.assertEqual(len(v), 5)
-        self.assertEqual(v.data(), self.int_list)
+        self.assertEqual(list(v.data()), self.int_list)
 
     def test_init_fail_list_type_mismatch(self):
         with self.assertRaises(TypeError):
@@ -85,7 +87,7 @@ class test_vector(unittest.TestCase):
             temp = randint(0, 100) % (i + 1)
             v[i] = temp
             rand_ints.append(temp)
-        self.assertEqual(v.data(), rand_ints)
+        self.assertEqual(list(v.data()), rand_ints)
 
     def test_getitem(self):
         self.assertEqual(self.str_fill_vector[0], "foo")
@@ -132,7 +134,7 @@ class test_vector(unittest.TestCase):
     # Data: 1 Test
     def test_data(self):
         v = Vector(self.int_list)
-        self.assertEqual(v.data(), self.int_list)
+        self.assertEqual(list(v.data()), self.int_list)
 
     # Test Modifier Methods: 14 tests
 
@@ -204,7 +206,7 @@ class test_vector(unittest.TestCase):
         v = Vector(10, 1)
         u = Vector(self.int_list)
         v.swap(u)
-        self.assertEqual(v.data(), self.int_list)
+        self.assertEqual(list(v.data()), self.int_list)
 
     # clear(): 1 test
     def test_clear(self):
@@ -235,7 +237,7 @@ class test_vector(unittest.TestCase):
 
     def test_rev_iter_(self):
         l = [5, 4, 3, 2, 1]
-        a = Vector(l)
+        a = Vector([1, 2, 3, 4, 5])
 
         count = 0
         it = a.rbegin()
@@ -266,8 +268,7 @@ class test_vector(unittest.TestCase):
             a.push_back(x + 1)
 
         it = a.rbegin()
-        with self.assertRaises(StopIteration):
-            next(it)
+        self.assertEqual(a.back(), next(it))
 
     def test_rend(self):
         a = Vector(int)
@@ -275,7 +276,8 @@ class test_vector(unittest.TestCase):
             a.push_back(x + 1)
 
         it = a.rend()
-        self.assertEqual(a[0], next(it))
+        with self.assertRaises(StopIteration):
+            next(it)
 
 
 if __name__ == "__main__":
