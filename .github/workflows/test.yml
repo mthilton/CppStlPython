@@ -3,6 +3,9 @@ name: Test
 # Controls when the workflow will run
 on:
   # Triggers the workflow or pull request events in staging
+  push:
+    branches:
+      - staging
   pull_request:
     branches: 
       - staging
