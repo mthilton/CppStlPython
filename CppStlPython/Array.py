@@ -340,14 +340,14 @@ class Array():
         '''Returns the first element in the array'''
         if not self.__defined[0]:
             raise self.UninitalizedValueError(
-                f"ArrayError(Front): First value is undefined")
+                "ArrayError(Front): First value is undefined")
         return self.__data[0]
 
     def back(self) -> Any:
         '''Returns the last element in the array'''
         if not self.__defined[-1]:
             raise self.UninitalizedValueError(
-                f"ArrayError(back): Last value is undefined")
+                "ArrayError(back): Last value is undefined")
         return self.__data[-1]
 
     def data(self) -> Tuple[Any]:
@@ -387,7 +387,7 @@ class Array():
         # This version has excpetions due to the fact that there are no compile
         # time errors for type and bounds checking.
         if not isinstance(arr, Array):
-            raise TypeError(f"ArrayError (swap): RHS must be an array!")
+            raise TypeError("ArrayError (swap): RHS must be an array!")
         if self.__type is not arr.__type:
             raise TypeError(
                 f"ArrayError (swap): LHS array is of type '{self.__type}' and RHS array is of type \

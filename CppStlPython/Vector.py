@@ -259,15 +259,13 @@ class Vector():
     def front(self) -> Any:
         '''Returns the first element in the vector'''
         if self.__size < 1:
-            raise self.OutOfRangeError(
-                f"Vector Error (front): Vector is empty")
+            raise self.OutOfRangeError("Vector Error (front): Vector is empty")
         return self.__data[0]
 
     def back(self) -> Any:
         '''Returns the last element in the vector'''
         if self.__size < 1:
-            raise self.OutOfRangeError(
-                f"Vector Error (back): Vector is empty")
+            raise self.OutOfRangeError("Vector Error (back): Vector is empty")
         return self.__data[-1]
 
     def data(self) -> Tuple[Any]:
@@ -305,7 +303,7 @@ class Vector():
         '''
         if self.__size < 1:
             raise self.OutOfRangeError(
-                f"Vector Error (pop_back): Unable to pop back the last element, Vector is empty!")
+                "Vector Error (pop_back): Unable to pop back the last element, Vector is empty!")
         self.__data.pop()
         self.__size -= 1
 
