@@ -23,4 +23,4 @@ jobs:
         pip install pylint
     - name: Analysing the code with pylint
       run: |
-        pylint `find ./CppStlPython | grep "[A-Za-z][A-Za-z\_]*[A-Za-z].py" | xargs`
+        pylint --disable=protected-access,C0103,R0903 `find ./CppStlPython | grep "[A-Za-z][A-Za-z\_]*[A-Za-z].py" | xargs`
