@@ -1,11 +1,15 @@
 name: Pylint
 
 on: 
+  push:
+    branches: [ staging ]
   pull_request:
     branches: [ staging ]
+  
+  workflow_dispatch:
 
 jobs:
-  build:
+  lint:
 
     runs-on: ubuntu-latest
 
@@ -21,4 +25,4 @@ jobs:
         pip install pylint
     - name: Analysing the code with pylint
       run: |
-        pylint `ls -R|grep .py$|xargs`
+        pylint --disable=protected-access,duplicate-code,C0103,R0903 `find ./CppStlPython | grep "[A-Za-z][A-Za-z\_]*[A-Za-z].py" | xargs`
