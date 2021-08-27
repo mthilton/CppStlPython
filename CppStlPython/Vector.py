@@ -1,18 +1,12 @@
 # Matthew Hilton
 # July 6th, 2021
-# TODO:
-#
-# 1. Figure out how modifying the vector after creating the iterator works and how to implement
-#    it.
-# 2. Update the testing module with iter tests and the removal of .data() and the refact from ._vector_type() to .type()
-
 '''
 Module: Vector.py
 
 This is the port of the Vector module in the C++ Standard
 Template Library. Anything involving pointers or move semantics
-Are either modified or removed. Reverse iterators and const iterators
-are also removed. However vector.data() has been implemented
+Are either modified or removed. Const iterators are also removed.
+However vector.data() has been implemented
 '''
 from typing import Any, List, Tuple
 
@@ -375,17 +369,12 @@ class Vector():
         self.__size = v.__size
         v.__size = temp
 
-        # Reset the iterators
-        self.__index = -1
-        v.__index = -1
-
     def clear(self) -> None:
         '''
         Clears the vector of any items
         '''
         self.__size = 0
         self.__data.clear()
-        self.__index = -1
 
     def emplace(self, i: int, *args) -> None:
         '''
