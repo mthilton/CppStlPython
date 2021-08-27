@@ -27,7 +27,6 @@ class Array():
     __type: type = None
     __data: List[type] = []
     __defined: List[bool] = []
-    __index: int = -1
 
     class UninitalizedValueError(Exception):
         '''
@@ -61,6 +60,38 @@ class Array():
             ]
             self.message = "Array error (init): " + errors[errno]
             super().__init__(self.message)
+
+    class array_iterator:
+        '''
+        An iterator class for array
+        '''
+
+        def __init__(self, array: 'Array', index: int = -1) -> None:
+            self.__array: 'Array' = array
+            self.__size: int = len(array)
+            self.__index: int = index
+
+        def __next__(self) -> None:
+            self.__index += 1
+            if self.__index < self.__size:
+                return self.__array[self.__index]
+            raise StopIteration
+
+    class array_reverse_iterator:
+        '''
+        An iterator class for array that will iterate backwards
+        '''
+
+        def __init__(self, array: 'Array', end: bool = False) -> None:
+            self.__array: 'Array' = array
+            self.__size: int = len(array)
+            self.__index: int = self.__size if end is False else end
+
+        def __next__(self) -> None:
+            self.__index -= 1
+            if self.__index > -1:
+                return self.__array[self.__index]
+            raise StopIteration
 
     def __init__(self, *args) -> None:
         '''
@@ -142,20 +173,20 @@ class Array():
 
         raise self.ConstructorFailure(errno, *invalid_args)
 
-    def __validate_args(self, args: List) -> Tuple(int, List):
+    def __validate_args(self, args: List) -> Tuple[int, List]:
         invalid_args = []
-        errno = True
+        errno = -1
         if len(args) > 0 and not isinstance(args[0], (type, int, Array)):
             invalid_args.append(args[0])
-            errno = False
+            errno = 4
 
         if len(args) > 1 and not isinstance(args[1], int):
             invalid_args.append(args[1])
-            errno = False
+            errno = 4
 
         if len(args) > 2:
             invalid_args += list(args[2:])
-            errno = False
+            errno = 4
 
         return errno, invalid_args
 
@@ -188,35 +219,44 @@ class Array():
             return True
         return False
 
-    def type(self) -> str:
+    def type(self) -> type:
         '''Returns the type that is allowed in the current array'''
-        return str(self.__type)
+        return self.__type
 
     # Iterator Methods
-    # rbegin, rend, cbegin, cend, crbegin, crend = delete
+    # cbegin, cend, crbegin, crend were not implemented becuase python has no real
+    # equivalent to a constant.
 
-    def __iter__(self) -> Any:
+    def __iter__(self) -> 'array_iterator':
         '''Magic Python Method that allows for iter(array)
            Useful for foreach type for loops (ie: for elem in array)'''
-        return iter(self.__data)
+        return self.array_iterator(self)
 
-    def __next__(self) -> Any:
-        '''Magic Python Method that allows iter(array) to find the next element'''
-        self.__index += 1
-        if self.__index < self.__size:
-            result = self.__data[self.__index]
-            return result
-        raise StopIteration
-
-    def begin(self) -> Any:
+    def begin(self) -> 'array_iterator':
         '''Returns the iterator to the first element in the array'''
-        self.__index = -1
-        return self.__next__()
+        return self.array_iterator(self)
 
-    def end(self) -> Any:
+    def end(self) -> 'array_iterator':
         '''Returns the iterator to the last element in the array'''
-        self.__index = self.__size
-        return self.__iter__()
+        return self.array_iterator(self, self.__size - 1)
+
+    def rbegin(self) -> 'array_reverse_iterator':
+        '''
+        Returns the iterator to the last element in the array.
+
+        When next is called, you will go to the previous element
+        in the array.
+        '''
+        return self.array_reverse_iterator(self)
+
+    def rend(self) -> 'array_reverse_iterator':
+        '''
+        Returns the iterator to the last element in the array
+
+        When next is called, you will go to the previous element
+        in the array.
+        '''
+        return self.array_reverse_iterator(self, end=True)
 
     # Capacity Methods
 
@@ -238,8 +278,8 @@ class Array():
         '''Returns true if array is empty'''
         for elem in self.__data:
             if elem is not None:
-                return True
-        return False
+                return False
+        return True
 
     # Element Access
     # The following two dunder methods effectivly overload the [] operator

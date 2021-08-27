@@ -36,25 +36,14 @@ class test_array(unittest.TestCase):
     def test_init_int_len_5_(self):
         self.assertIsInstance(0, self.int_array_5.type())
         self.assertEqual(len(self.int_array_5), 5)
-        count = 0
-        for _ in self.int_array_5:
-            count += 1
-        self.assertEqual(count, 5)
 
     def test_init_str_len_100_(self):
         self.assertIsInstance('sa', self.str_array_100.type())
         self.assertEqual(len(self.str_array_100), 100)
-        count = 0
-        for _ in self.str_array_100:
-            count += 1
-        self.assertEqual(count, 100)
 
     def test_init_none_len_100_(self):
         a = Array(100)
         self.assertEqual(a.type(), type(None))
-        self.assertEqual(len(a), 100)
-        for elem in a:
-            self.assertEqual(elem, None)
 
     def test_copy_init(self):
         self.copy_int_array_5 = Array(self.int_array_5)
@@ -202,6 +191,31 @@ class test_array(unittest.TestCase):
             self.int_array_5.fill(5)
             self.int_array_10.fill(10)
             self.int_array_10.swap(self.int_array_5)
+
+    # Test Iteration Methods: Tests
+    def test_iter_overload(self):
+        l = [1, 2, 3, 4, 5]
+        a = Array(int, 5)
+        for x in range(5):
+            a[x] = x + 1
+
+        count = 0
+        it = iter(a)
+        for elem in l:
+            self.assertEqual(next(it), elem)
+            count += 1
+
+    def test_rev_iter_(self):
+        l = [5, 4, 3, 2, 1]
+        a = Array(int, 5)
+        for x in range(5):
+            a[x] = x + 1
+
+        count = 0
+        it = a.rbegin()
+        for elem in l:
+            self.assertEqual(next(it), elem)
+            count += 1
 
 
 if __name__ == "__main__":
