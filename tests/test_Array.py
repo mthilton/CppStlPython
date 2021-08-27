@@ -63,7 +63,7 @@ class test_array(unittest.TestCase):
         for i in range(len(self.int_array_5)):
             try:
                 x = self.int_array_5[i]
-            except self.int_array_5.UninitalizedValueError:
+            except Array.UninitalizedValueError:
                 continue
             empty = False
 
@@ -96,7 +96,6 @@ class test_array(unittest.TestCase):
         self.assertEqual(self.int_array_5[0], 5)
 
     def test_getitem_loop(self):
-        rand_ints = []
         for i in range(len(self.int_array_10)):
             temp = randint(0, 100) % (i + 1)
             self.int_array_10[i] = temp
@@ -145,18 +144,16 @@ class test_array(unittest.TestCase):
             self.int_array_5.fill(None)
             x = self.int_array_5.back()
 
-    # Test iterators: 1 Test
-    def test_itr(self):
-        self.int_array_5.fill(None)
-        i = 0
-        for j in range(len(self.int_array_5)):
-            self.int_array_5[j] = j
-        for elem in self.int_array_5:
-            self.assertEqual(elem, self.int_array_5[i])
-            i += 1
+    def test_data(self):
+        a = Array(int, 5)
+        for x in range(5):
+            a[x] = x + 1
+
+        self.assertEqual(a.data(), [1, 2, 3, 4, 5])
 
     # Test Modifiers: 6 Tests
     # Fill: 3 Test
+
     def test_fill_success(self):
         self.fs_int_array_400.fill(40)
         for i in range(len(self.snd_int_array_400)):
@@ -192,7 +189,16 @@ class test_array(unittest.TestCase):
             self.int_array_10.fill(10)
             self.int_array_10.swap(self.int_array_5)
 
-    # Test Iteration Methods: 2 Tests
+    # Test Iteration Methods: 7 Tests
+    def test_itr(self):
+        self.int_array_5.fill(None)
+        i = 0
+        for j in range(len(self.int_array_5)):
+            self.int_array_5[j] = j
+        for elem in self.int_array_5:
+            self.assertEqual(elem, self.int_array_5[i])
+            i += 1
+
     def test_iter_overload(self):
         l = [1, 2, 3, 4, 5]
         a = Array(int, 5)
@@ -216,6 +222,40 @@ class test_array(unittest.TestCase):
         for elem in l:
             self.assertEqual(next(it), elem)
             count += 1
+
+    def test_begin(self):
+        a = Array(int, 5)
+        for x in range(5):
+            a[x] = x + 1
+
+        it = a.begin()
+        self.assertEqual(a[0], next(it))
+
+    def test_end(self):
+        a = Array(int, 5)
+        for x in range(5):
+            a[x] = x + 1
+
+        it = a.end()
+        with self.assertRaises(StopIteration):
+            next(it)
+
+    def test_rbegin(self):
+        a = Array(int, 5)
+        for x in range(5):
+            a[x] = x + 1
+
+        it = a.rbegin()
+        with self.assertRaises(StopIteration):
+            next(it)
+
+    def test_rend(self):
+        a = Array(int, 5)
+        for x in range(5):
+            a[x] = x + 1
+
+        it = a.rend()
+        self.assertEqual(a[0], next(it))
 
 
 if __name__ == "__main__":

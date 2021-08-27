@@ -134,7 +134,7 @@ class test_vector(unittest.TestCase):
         v = Vector(self.int_list)
         self.assertEqual(v.data(), self.int_list)
 
-    # Test Modifier Methods: tests
+    # Test Modifier Methods: 14 tests
 
     # Push_back(): 2 tests
     def test_push_back(self):
@@ -199,25 +199,84 @@ class test_vector(unittest.TestCase):
         with self.assertRaises(Vector.OutOfRangeError):
             v.erase(0, 6)
 
-    # swap(): 1 tests
+    # swap(): 1 test
     def test_swap(self):
         v = Vector(10, 1)
         u = Vector(self.int_list)
         v.swap(u)
         self.assertEqual(v.data(), self.int_list)
 
-    # clear(): 1 tests
+    # clear(): 1 test
     def test_clear(self):
         v = Vector(self.int_list)
         v.clear()
         self.assertTrue(v.empty())
 
-    # emplace(): tests
+    # emplace(): 1 test
     def test_emplace(self):
         self.str_fill_vector.emplace(0, 'bar')
         self.assertEqual(self.str_fill_vector.front(), 'bar')
 
-    # emplace_back(): tests
+    # emplace_back(): 1 test
     def test_emplace_back(self):
         self.str_fill_vector.emplace_back('bar')
         self.assertEqual(self.str_fill_vector.back(), 'bar')
+
+    # Test Iterators: 6 Tests
+    def test_iter_overload(self):
+        l = [1, 2, 3, 4, 5]
+        a = Vector(l)
+
+        count = 0
+        it = iter(a)
+        for elem in l:
+            self.assertEqual(next(it), elem)
+            count += 1
+
+    def test_rev_iter_(self):
+        l = [5, 4, 3, 2, 1]
+        a = Vector(l)
+
+        count = 0
+        it = a.rbegin()
+        for elem in l:
+            self.assertEqual(next(it), elem)
+            count += 1
+
+    def test_begin(self):
+        a = Vector(int)
+        for x in range(5):
+            a.push_back(x + 1)
+
+        it = a.begin()
+        self.assertEqual(a[0], next(it))
+
+    def test_end(self):
+        a = Vector(int)
+        for x in range(5):
+            a.push_back(x + 1)
+
+        it = a.end()
+        with self.assertRaises(StopIteration):
+            next(it)
+
+    def test_rbegin(self):
+        a = Vector(int)
+        for x in range(5):
+            a.push_back(x + 1)
+
+        it = a.rbegin()
+        with self.assertRaises(StopIteration):
+            next(it)
+
+    def test_rend(self):
+        a = Vector(int)
+        for x in range(5):
+            a.push_back(x + 1)
+
+        it = a.rend()
+        self.assertEqual(a[0], next(it))
+
+
+if __name__ == "__main__":
+    unittest.main()
