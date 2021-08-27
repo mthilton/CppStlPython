@@ -12,7 +12,7 @@ setuptools.setup(
     long_description=long_description,
     long_description_content_type="text/markdown",
     project_urls={
-        "Source": "https://github.com/mthilton/CppStlPython"
+        "Source": "https://github.com/mthilton/CppStlPython",
         "Bug Tracker": "https://github.com/mthilton/CppStlPython/issues",
     },
     classifiers=[
