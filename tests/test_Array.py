@@ -22,36 +22,39 @@ class test_array(unittest.TestCase):
         self.snd_int_array_400 = Array(int, 400)
         self.str_array_100 = Array(str, 100)
 
-    # Test Array Unit Test Helpers: 2 Tests
-    def test_array_data_is_list(self):
-        self.assertIsInstance(self.empty_array.data(), list)
+    # Test Array Unit Test Helpers: 1 Test
 
     def test_array_type_is_proper_type(self):
-        self.assertIsInstance(None, self.empty_array.array_type())
+        self.assertIsInstance(None, self.empty_array.type())
 
     # Test Init: 5 test
     def test_init_empty(self):
-        self.assertIsInstance(None, self.empty_array.array_type())
+        self.assertIsInstance(None, self.empty_array.type())
         self.assertEqual(len(self.empty_array), 0)
-        self.assertEqual(self.empty_array.data(), [])
+        self.assertTrue(self.empty_array.empty())
 
     def test_init_int_len_5_(self):
-        self.assertIsInstance(0, self.int_array_5.array_type())
+        self.assertIsInstance(0, self.int_array_5.type())
         self.assertEqual(len(self.int_array_5), 5)
-        self.assertEqual(self.int_array_5.data(),
-                         [int for _ in range(5)])
+        count = 0
+        for _ in self.int_array_5:
+            count += 1
+        self.assertEqual(count, 5)
 
     def test_init_str_len_100_(self):
-        self.assertIsInstance('sa', self.str_array_100.array_type())
+        self.assertIsInstance('sa', self.str_array_100.type())
         self.assertEqual(len(self.str_array_100), 100)
-        self.assertEqual(self.str_array_100.data(),
-                         [str for _ in range(100)])
+        count = 0
+        for _ in self.str_array_100:
+            count += 1
+        self.assertEqual(count, 100)
 
     def test_init_none_len_100_(self):
         a = Array(100)
-        self.assertEqual(a.array_type(), type(None))
+        self.assertEqual(a.type(), type(None))
         self.assertEqual(len(a), 100)
-        self.assertEqual(a.data(), [None for _ in range(100)])
+        for elem in a:
+            self.assertEqual(elem, None)
 
     def test_copy_init(self):
         self.copy_int_array_5 = Array(self.int_array_5)
@@ -81,7 +84,7 @@ class test_array(unittest.TestCase):
     # Array[]: 8 Tests
     def test_setitem(self):
         self.int_array_5[0] = 5
-        self.assertEqual(self.int_array_5.data()[0], 5)
+        self.assertEqual(self.int_array_5[0], 5)
 
     def test_setitem_fail_index(self):
         with self.assertRaises(IndexError):
@@ -97,7 +100,7 @@ class test_array(unittest.TestCase):
             temp = randint(0, 100) % (i + 1)
             self.int_array_10[i] = temp
             rand_ints.append(temp)
-        self.assertEqual(self.int_array_10.data()[i], rand_ints[i])
+            self.assertEqual(self.int_array_10[i], rand_ints[i])
 
     def test_getitem(self):
         self.int_array_5[0] = 5
