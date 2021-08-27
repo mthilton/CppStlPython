@@ -192,7 +192,7 @@ class test_array(unittest.TestCase):
             self.int_array_10.fill(10)
             self.int_array_10.swap(self.int_array_5)
 
-    # Test Iteration Methods: Tests
+    # Test Iteration Methods: 2 Tests
     def test_iter_overload(self):
         l = [1, 2, 3, 4, 5]
         a = Array(int, 5)
