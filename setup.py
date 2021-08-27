@@ -5,9 +5,8 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setuptools.setup(
     name="CppStlPython",
-    version="0.1.0",
+    version="0.1.1",
     author="@mthilton",
-    author_email="redacted@example.com",
     description="A port of the C++ Standard Template Library to Python.",
     long_description=long_description,
     long_description_content_type="text/markdown",
