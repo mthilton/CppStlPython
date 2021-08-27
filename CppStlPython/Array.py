@@ -6,8 +6,8 @@ Module: array.py
 
 This is the port of the array module in the C++ Standard
 Template Library. Anything involving pointers or move semantics
-Are either modified or removed. Reverse iterators and const iterators
-are also removed. However array.data() has been implemented.
+Are either modified or removed. Const iterators are also removed.
+However array.data() has been implemented.
 '''
 
 # Imports
