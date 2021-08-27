@@ -14,6 +14,27 @@ are also removed. However array.data() has been implemented.
 from typing import Any, List, Tuple
 
 
+def __validate_args(args: List) -> Tuple[int, List]:
+    '''
+    Helper Function that helps validate arguments passed to the consturctor
+    '''
+    invalid_args = []
+    errno = -1
+    if len(args) > 0 and not isinstance(args[0], (type, int, Array)):
+        invalid_args.append(args[0])
+        errno = 4
+
+    if len(args) > 1 and not isinstance(args[1], int):
+        invalid_args.append(args[1])
+        errno = 4
+
+    if len(args) > 2:
+        invalid_args += list(args[2:])
+        errno = 4
+
+    return errno, invalid_args
+
+
 class Array():
 
     '''
@@ -61,7 +82,7 @@ class Array():
             self.message = "Array error (init): " + errors[errno]
             super().__init__(self.message)
 
-    class array_iterator:
+    class ArrayIterator:
         '''
         An iterator class for array
         '''
@@ -77,7 +98,7 @@ class Array():
                 return self.__array[self.__index]
             raise StopIteration
 
-    class array_reverse_iterator:
+    class ArrayReverseIterator:
         '''
         An iterator class for array that will iterate backwards
         '''
@@ -122,7 +143,7 @@ class Array():
             return
 
         # Type checking of values
-        errno, invalid_args = self.__validate_args(args)
+        errno, invalid_args = __validate_args(args)
 
         if errno < 0:
 
@@ -173,23 +194,6 @@ class Array():
 
         raise self.ConstructorFailure(errno, *invalid_args)
 
-    def __validate_args(self, args: List) -> Tuple[int, List]:
-        invalid_args = []
-        errno = -1
-        if len(args) > 0 and not isinstance(args[0], (type, int, Array)):
-            invalid_args.append(args[0])
-            errno = 4
-
-        if len(args) > 1 and not isinstance(args[1], int):
-            invalid_args.append(args[1])
-            errno = 4
-
-        if len(args) > 2:
-            invalid_args += list(args[2:])
-            errno = 4
-
-        return errno, invalid_args
-
     def __len__(self) -> int:
         '''Returns the length of the array'''
         return self.__size
@@ -227,36 +231,36 @@ class Array():
     # cbegin, cend, crbegin, crend were not implemented becuase python has no real
     # equivalent to a constant.
 
-    def __iter__(self) -> 'array_iterator':
+    def __iter__(self) -> 'ArrayIterator':
         '''Magic Python Method that allows for iter(array)
            Useful for foreach type for loops (ie: for elem in array)'''
-        return self.array_iterator(self)
+        return self.ArrayIterator(self)
 
-    def begin(self) -> 'array_iterator':
+    def begin(self) -> 'ArrayIterator':
         '''Returns the iterator to the first element in the array'''
-        return self.array_iterator(self)
+        return self.ArrayIterator(self)
 
-    def end(self) -> 'array_iterator':
+    def end(self) -> 'ArrayIterator':
         '''Returns the iterator to the last element in the array'''
-        return self.array_iterator(self, self.__size - 1)
+        return self.ArrayIterator(self, self.__size - 1)
 
-    def rbegin(self) -> 'array_reverse_iterator':
+    def rbegin(self) -> 'ArrayReverseIterator':
         '''
         Returns the iterator to the last element in the array.
 
         When next is called, you will go to the previous element
         in the array.
         '''
-        return self.array_reverse_iterator(self)
+        return self.ArrayReverseIterator(self)
 
-    def rend(self) -> 'array_reverse_iterator':
+    def rend(self) -> 'ArrayReverseIterator':
         '''
         Returns the iterator to the last element in the array
 
         When next is called, you will go to the previous element
         in the array.
         '''
-        return self.array_reverse_iterator(self, end=True)
+        return self.ArrayReverseIterator(self, end=True)
 
     # Capacity Methods
 
@@ -350,19 +354,18 @@ class Array():
 
     def fill(self, val: Any) -> None:
         '''Fills the array with the passed value.
+
            To make the array empty, call fill(None)'''
         # Sets array to be empty
         if val is None:
             self.__data = [self.__type] * self.__size
             self.__defined = [False] * self.__size
-            self.__index = -1
             return
 
         # Fill Array with current type
         if isinstance(val, self.__type):
             self.__data = [val for _ in range(self.__size)]
-            self.__defined = [
-                False if val is None else True for _ in range(self.__size)]
+            self.__defined = [True] * self.__size
             return
 
         # Invalid type
